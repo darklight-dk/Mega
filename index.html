@@ -480,9 +480,12 @@ function classifyName(name){
 
 // Pide a la API pública de MEGA la lista de nodos de una carpeta compartida
 // y descifra nombres y llaves en el propio navegador (nada sale cifrado del cliente de MEGA).
+// URL de tu Worker de Cloudflare (proxy CORS). Cámbiala por la tuya tras desplegarlo.
+const MEGA_PROXY = 'https://mega-proxy.donniaxel55.workers.dev';
+
 async function extractFolderFiles(parsed){
   const folderKeyBytes = b64decode(parsed.key);
-  const apiUrl = `https://g.mega.co.nz/cs?id=${Math.floor(Math.random()*1e9)}&n=${parsed.id}`;
+  const apiUrl = `${MEGA_PROXY}?id=${Math.floor(Math.random()*1e9)}&n=${parsed.id}`;
   const res = await fetch(apiUrl, {
     method: 'POST',
     body: JSON.stringify([{ a:'f', c:1, r:1, ca:1 }])
